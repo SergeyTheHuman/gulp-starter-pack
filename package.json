@@ -13,6 +13,7 @@
 	"author": "Ivanov Sergey <sergey2611.ivanov@yandex.ru>",
 	"license": "ISC",
 	"devDependencies": {
+		"del": "^6.0.0",
 		"gulp": "^4.0.2"
 	}
 }
