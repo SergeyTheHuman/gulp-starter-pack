@@ -1,14 +1,18 @@
 {
-  "name": "gulp-starter-pack",
-  "version": "1.0.0",
-  "description": "Gulp starter pack ",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "Gulp"
-  ],
-  "author": "Ivanov Sergey <sergey2611.ivanov@yandex.ru>",
-  "license": "ISC"
+	"name": "gulp-starter-pack",
+	"version": "1.0.0",
+	"description": "Gulp starter pack ",
+	"main": "gulpfile.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"Gulp"
+	],
+	"author": "Ivanov Sergey <sergey2611.ivanov@yandex.ru>",
+	"license": "ISC",
+	"devDependencies": {
+		"gulp": "^4.0.2"
+	}
 }
