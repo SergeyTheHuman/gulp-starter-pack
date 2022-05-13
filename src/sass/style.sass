@@ -1,0 +1,37 @@
+@import utils/reset
+@import utils/global
+@import components/header
+@import components/footer
+
+li 
+	font-size: $font-size*5
+body
+	background-color: tomato
+	overflow: hidden
+	background: url('@img/triangle.jpg')
+
+@media (max-width: 768px) 
+	div
+		span
+			color: skyblue
+
+
+.class
+	display: flex
+	margin: 0 auto
+	p
+		color: green
+		font-size: 25px
+		transition: all 0.3s ease
+		display: flex
+		@media (max-width: 768px) 
+			font-size: 40px
+			color: blue
+		@media (max-width: 500px)
+			color: violet
+		&:hover
+			transform: scale(1.5)
+
+@media (max-width: 768px) 
+	span
+		font-size: 50px

@@ -4,7 +4,7 @@ import versionNumber from 'gulp-version-number'
 
 export const pugToHtml = () => {
 	return app.gulp
-		.src(app.path.src.html)
+		.src(app.path.src.pug)
 		.pipe(
 			app.plugins.pug({
 				pretty: true,

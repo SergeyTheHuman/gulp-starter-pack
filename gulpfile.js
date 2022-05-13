@@ -8,6 +8,7 @@ import { plugins } from './gulp/config/plugins.js'
 import { copy } from './gulp/tasks/copy.js'
 import { clean } from './gulp/tasks/clean.js'
 import { pugToHtml } from './gulp/tasks/pugToHtml.js'
+import { sassToCss } from './gulp/tasks/sassToCss.js'
 import { server } from './gulp/tasks/server.js'
 
 global.app = {
@@ -18,10 +19,11 @@ global.app = {
 
 function watcher() {
 	gulp.watch(path.watch.files, copy)
-	gulp.watch(path.watch.html, pugToHtml)
+	gulp.watch(path.watch.pug, pugToHtml)
+	gulp.watch(path.watch.sass, sassToCss)
 }
 
-const mainTasks = gulp.parallel(copy, pugToHtml)
+const mainTasks = gulp.parallel(copy, pugToHtml, sassToCss)
 
 const dev = gulp.series(clean, mainTasks, gulp.parallel(watcher, server))
 
