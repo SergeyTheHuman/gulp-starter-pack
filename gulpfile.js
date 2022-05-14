@@ -32,15 +32,15 @@ function watcher() {
 }
 
 const fonts = gulp.series(otfToTtf, ttfToWoff, fontsInSass)
-// const mainTasks = gulp.series(
-// 	fonts,
-// 	sprite,
-// 	gulp.parallel(copy, pugToHtml, sassToCss, javascript, images)
-// )
 const mainTasks = gulp.series(
+	fonts,
 	sprite,
-	gulp.parallel(copy, pugToHtml, sassToCss, javascript)
+	gulp.parallel(copy, pugToHtml, sassToCss, javascript, images)
 )
+// const mainTasks = gulp.series(
+// 	sprite,
+// 	gulp.parallel(copy, pugToHtml, sassToCss, javascript)
+// )
 const dev = gulp.series(clean, mainTasks, gulp.parallel(watcher, server))
 
 gulp.task('default', dev)
