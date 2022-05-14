@@ -35,112 +35,52 @@ export const fontsInSass = () => {
 			if (!fs.existsSync(fontsFile)) {
 				fs.writeFile(fontsFile, '', callback)
 				let newFileOnly
+
+				function getFontNameAndWeight(array) {
+					let weightMap = {
+						thin: 100,
+						extralight: 200,
+						light: 300,
+						regular: 400,
+						medium: 500,
+						semibold: 600,
+						bold: 700,
+						extrabold: 800,
+						heavy: 800,
+						black: 900,
+					}
+					let font = {}
+					for (const item of array) {
+						let itemLowerCase = item.toLowerCase()
+						if (itemLowerCase in weightMap) {
+							font.fontWeight = weightMap[itemLowerCase]
+							array.splice(array.indexOf(itemLowerCase), 1)
+							font.fontName = array.join('-')
+						} else {
+							font.fontWeight = 400
+							font.fontName = array.join('-')
+						}
+					}
+
+					return font
+				}
+
 				for (let i = 0; i < fontsFiles.length; i++) {
 					const fontFileName = fontsFiles[i].split('.')[0]
 					if (newFileOnly !== fontFileName) {
-						// let fontName = fontFileName.split('-')[0]
-						// 	? fontFileName.split('-')[0]
-						// 	: fontFileName
-						// let fontWeight = fontFileName.split('-')[1]
-						// 	? fontFileName.split('-')[1]
-						// 	: fontFileName
-						// switch (fontWeight.toLowerCase()) {
-						// 	case 'thin':
-						// 		fontWeight = 100
-						// 		break
-						// 	case 'extralight':
-						// 		fontWeight = 200
-						// 		break
-						// 	case 'light':
-						// 		fontWeight = 300
-						// 		break
-						// 	case 'medium':
-						// 		fontWeight = 500
-						// 		break
-						// 	case 'semibold':
-						// 		fontWeight = 600
-						// 		break
-						// 	case 'bold':
-						// 		fontWeight = 700
-						// 		break
-						// 	case 'extrabold':
-						// 		fontWeight = 800
-						// 		break
-						// 	case 'heavy':
-						// 		fontWeight = 800
-						// 		break
-						// 	case 'black':
-						// 		fontWeight = 900
-						// 		break
-						// 	default:
-						// 		fontWeight = 400
-						// 		break
-						// }
-
-						// let fontName = fontFileName.split('-')[0]
-						// 	? fontFileName.split('-')[0]
-						// 	: fontFileName
-						// let fontName = fontFileName.split('-').slice(0, -1).join('-')
-						// let fontWeight = fontFileName.split('-')
-						let fontName
-						let fontWeight
 						let fontArray = fontFileName.split('-')
-						if (fontArray.indexOf('thin') !== -1) {
-							fontWeight = 100
-							fontArray.splice(fontArray.indexOf('thin'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('extralight') !== -1) {
-							fontWeight = 200
-							fontArray.splice(fontArray.indexOf('extralight'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('light') !== -1) {
-							fontWeight = 300
-							fontArray.splice(fontArray.indexOf('light'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('medium') !== -1) {
-							fontWeight = 500
-							fontArray.splice(fontArray.indexOf('medium'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('semibold') !== -1) {
-							fontWeight = 600
-							fontArray.splice(fontArray.indexOf('semibold'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('bold') !== -1) {
-							fontWeight = 700
-							fontArray.splice(fontArray.indexOf('bold'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('extrabold') !== -1) {
-							fontWeight = 800
-							fontArray.splice(fontArray.indexOf('extrabold'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('heavy') !== -1) {
-							fontWeight = 800
-							fontArray.splice(fontArray.indexOf('heavy'), 1)
-							fontName = fontArray.join('-')
-						} else if (fontArray.indexOf('black') !== -1) {
-							fontWeight = 900
-							fontArray.splice(fontArray.indexOf('black'), 1)
-							fontName = fontArray.join('-')
-						} else {
-							fontWeight = 400
-							if (fontArray.indexOf('regular') !== -1) {
-								fontArray.splice(fontArray.indexOf('regular'), 1)
-								fontName = fontArray.join('-')
-							} else {
-								fontName = fontArray.join('-')
-							}
-						}
+						let font = getFontNameAndWeight(fontArray)
 
 						fs.appendFile(
 							fontsFile,
-							`@font-face\n\tfont-family: ${fontName}\n\tfont-display: swap\n\tsrc: url('../fonts/${fontFileName}.woff2') format('woff2'), url('../fonts/${fontFileName}.woff') format('woff'),\n\tfont-weight: ${fontWeight}\n\tfont-style: normal\n`,
+							`@font-face\n\tfont-family: ${font.fontName}\n\tfont-display: swap\n\tsrc: url('../fonts/${fontFileName}.woff2') format('woff2'), url('../fonts/${fontFileName}.woff') format('woff'),\n\tfont-weight: ${font.fontWeight}\n\tfont-style: normal\n`,
 							callback
 						)
 						newFileOnly = fontFileName
 					}
 				}
 			} else {
-				console.log(
+				throw new Error(
 					'Файл шрифтов уже существует. Если вы хотите обновить его, то удалите существующий и запустите задачу заново'
 				)
 			}
