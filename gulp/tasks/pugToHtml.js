@@ -12,6 +12,9 @@ export const pugToHtml = () => {
 			})
 		)
 		.pipe(app.plugins.replace(/@img\//g, 'images/'))
+		.pipe(
+			app.plugins.replace(/@svg\//g, 'images/symbol/svg/sprite.symbol.svg#')
+		)
 		.pipe(webpHtmlNosvg())
 		.pipe(
 			versionNumber({

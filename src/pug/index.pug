@@ -4,9 +4,17 @@ html(lang="ru")
 		include utils/meta
 		link(rel="stylesheet", href="css/style.min.css")
 		title Main Page
-	body 
+	body
 		include components/header
+		.test Тест 
+			svg.android-icon
+				use(xlink:href='@svg/android')
+			svg.facebook-icon(style='width: 30px; height: 30px;')
+				use(xlink:href='@svg/facebook')
+			svg.instagram-icon(style='width: 30px; height: 30px;')
+				use(xlink:href='@svg/instagram')
 		span Я СПАН ВСЕМ ПРУВЕТ
+		p.soul Только что закончил делать таску с шрифтами. Ебать это пизда
 		.text KAKASHKA
 		ul
 			li asdasd

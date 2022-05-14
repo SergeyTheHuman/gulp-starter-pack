@@ -12,6 +12,7 @@ import { sassToCss } from './gulp/tasks/sassToCss.js'
 import { javascript } from './gulp/tasks/javascript.js'
 import { images } from './gulp/tasks/images.js'
 import { otfToTtf, ttfToWoff, fontsInSass } from './gulp/tasks/fonts.js'
+import { sprite } from './gulp/tasks/sprite.js'
 import { server } from './gulp/tasks/server.js'
 
 global.app = {
@@ -19,6 +20,8 @@ global.app = {
 	path: path,
 	plugins: plugins,
 }
+
+export { sprite }
 
 function watcher() {
 	gulp.watch(path.watch.files, copy)
@@ -29,15 +32,15 @@ function watcher() {
 }
 
 const fonts = gulp.series(otfToTtf, ttfToWoff, fontsInSass)
-
-const mainTasks = gulp.series(
-	fonts,
-	gulp.parallel(copy, pugToHtml, sassToCss, javascript)
-)
 // const mainTasks = gulp.series(
 // 	fonts,
+// 	sprite,
 // 	gulp.parallel(copy, pugToHtml, sassToCss, javascript, images)
 // )
+const mainTasks = gulp.series(
+	sprite,
+	gulp.parallel(copy, pugToHtml, sassToCss, javascript)
+)
 const dev = gulp.series(clean, mainTasks, gulp.parallel(watcher, server))
 
 gulp.task('default', dev)
