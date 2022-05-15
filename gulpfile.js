@@ -46,3 +46,6 @@ const zip = gulp.series(clean, mainTasks, addToZip)
 gulp.task('default', dev)
 
 export { sprite, dev, build, zip }
+
+/*Если забыл, как что-то работает и тд - смотри видео https://youtu.be/jU88mLuLWlk (видос также есть на компе и в телеграме)*/
+/*Если нужна задача с выгрузкой верстки на сервер - смотри в файл ftp.js*/
