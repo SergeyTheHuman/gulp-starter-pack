@@ -13,6 +13,7 @@ import { javascript } from './gulp/tasks/javascript.js'
 import { images } from './gulp/tasks/images.js'
 import { otfToTtf, ttfToWoff, fontsInSass } from './gulp/tasks/fonts.js'
 import { sprite } from './gulp/tasks/sprite.js'
+import { addToZip } from './gulp/tasks/addToZip.js'
 import { server } from './gulp/tasks/server.js'
 
 global.app = {
@@ -39,8 +40,9 @@ const mainTasks = gulp.series(
 )
 
 const dev = gulp.series(clean, mainTasks, gulp.parallel(watcher, server))
-const build = gulp.series(clean, mainTasks)
+const build = gulp.series(clean, mainTasks, server)
+const zip = gulp.series(clean, mainTasks, addToZip)
 
 gulp.task('default', dev)
 
-export { sprite, dev, build }
+export { sprite, dev, build, zip }
