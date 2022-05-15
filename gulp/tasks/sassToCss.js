@@ -9,35 +9,59 @@ import groupCssMediaQueries from 'gulp-group-css-media-queries'
 const sass = gulpSass(dartSass)
 
 export const sassToCss = () => {
-	return app.gulp
-		.src(app.path.src.sass, { sourcemaps: true })
-		.pipe(app.plugins.replace(/@img\//g, '../images/'))
-		.pipe(
-			sass({
-				outputStyle: 'expanded',
-			})
-		)
-		.pipe(groupCssMediaQueries())
-		.pipe(
-			webpcss({
-				webpClass: '.webp',
-				nowebpClass: '.no-webp',
-			})
-		)
-		.pipe(
-			autoprefixer({
-				grid: true,
-				overrideBrowserlist: ['last 3 versions'],
-				cascade: true,
-			})
-		)
-		.pipe(app.gulp.dest(app.path.build.css))
-		.pipe(cleanCss())
-		.pipe(
-			rename({
-				extname: '.min.css',
-			})
-		)
-		.pipe(app.gulp.dest(app.path.build.css))
-		.pipe(app.plugins.browsersync.stream())
+	return (
+		app.gulp
+			.src(app.path.src.sass, { sourcemaps: app.isDev })
+			.pipe(app.plugins.replace(/@img\//g, '../images/'))
+			.pipe(
+				sass({
+					outputStyle: 'expanded',
+				})
+			)
+			.pipe(app.plugins.if(app.isBuild, groupCssMediaQueries()))
+			.pipe(
+				app.plugins.if(
+					app.isBuild,
+					webpcss({
+						webpClass: '.webp',
+						nowebpClass: '.no-webp',
+					})
+				)
+			)
+			.pipe(
+				app.plugins.if(
+					app.isBuild,
+					autoprefixer({
+						grid: true,
+						overrideBrowserlist: ['last 3 versions'],
+						cascade: true,
+					})
+				)
+			)
+
+			// .pipe(groupCssMediaQueries())
+			// .pipe(
+			// 	webpcss({
+			// 		webpClass: '.webp',
+			// 		nowebpClass: '.no-webp',
+			// 	})
+			// )
+			// .pipe(
+			// 	autoprefixer({
+			// 		grid: true,
+			// 		overrideBrowserlist: ['last 3 versions'],
+			// 		cascade: true,
+			// 	})
+			// )
+			.pipe(app.gulp.dest(app.path.build.css))
+			.pipe(app.plugins.if(app.isBuild, cleanCss()))
+			// .pipe(cleanCss())
+			.pipe(
+				rename({
+					extname: '.min.css',
+				})
+			)
+			.pipe(app.gulp.dest(app.path.build.css))
+			.pipe(app.plugins.browsersync.stream())
+	)
 }

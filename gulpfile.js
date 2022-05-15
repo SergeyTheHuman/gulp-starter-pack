@@ -16,12 +16,12 @@ import { sprite } from './gulp/tasks/sprite.js'
 import { server } from './gulp/tasks/server.js'
 
 global.app = {
+	isBuild: process.argv.includes('--build'),
+	isDev: !process.argv.includes('--build'),
 	gulp: gulp,
 	path: path,
 	plugins: plugins,
 }
-
-export { sprite }
 
 function watcher() {
 	gulp.watch(path.watch.files, copy)
@@ -37,10 +37,10 @@ const mainTasks = gulp.series(
 	sprite,
 	gulp.parallel(copy, pugToHtml, sassToCss, javascript, images)
 )
-// const mainTasks = gulp.series(
-// 	sprite,
-// 	gulp.parallel(copy, pugToHtml, sassToCss, javascript)
-// )
+
 const dev = gulp.series(clean, mainTasks, gulp.parallel(watcher, server))
+const build = gulp.series(clean, mainTasks)
 
 gulp.task('default', dev)
+
+export { sprite, dev, build }
