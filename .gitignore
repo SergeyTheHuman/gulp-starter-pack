@@ -1,6 +1,9 @@
 /node_modules
 /dist
+/src/files
 /src/images/*.*
 /src/fonts/*.*
 /src/svg-icons/*.*
 *.zip
+
+
